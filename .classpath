@@ -6,8 +6,8 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="lib/craftbukkit-1.6.4-R2.0.jar"/>
 	<classpathentry kind="lib" path="lib/mysql-connector-java-5.0.5-bin.jar"/>
 	<classpathentry kind="lib" path="lib/worldedit-bukkit-6.1.9.jar"/>
+	<classpathentry kind="lib" path="D:/Developpement/srv-mc/1.6.4-bukkit/craftbukkit-1.6.4-R2.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

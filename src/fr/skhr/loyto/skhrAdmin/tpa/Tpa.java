@@ -102,6 +102,16 @@ class tpaThread extends Thread {
 		
 		if(Tpa.verifRequete(pseudo1)) {
 			Tpa.remRequete(pseudo1);
+			
+			Player p = Bukkit.getPlayer(pseudo1);
+			if(p != null) {
+				p.sendMessage(ChatColor.RED + "Téléportation annulée");
+			}
+			p = Bukkit.getPlayer(pseudo2);
+			if(p != null) {
+				p.sendMessage(ChatColor.RED + "Téléportation annulée");
+			}
+			
 		}
 	}
 }
