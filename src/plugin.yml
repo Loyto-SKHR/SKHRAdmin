@@ -1,0 +1,139 @@
+name: SKHRAdmin
+main: fr.skhr.loyto.skhrAdmin.Main
+version: 1.0
+author: Loyto
+description: skhr admin
+
+commands:
+  #Commande speed
+  speed:
+    description: Modifie la vitesse
+    permission: skhr.speed
+  
+  #Commande warp
+  warp:
+    description: Permet de ce tp a un warp
+    permission: skhr.warp
+  warps:
+    description: Permet d'avoir la liste des warps
+    permission: skhr.warp
+  setwarp:
+    description: Set un warp
+    permission: skhr.warp.set
+  delwarp:
+    description: Suprime un warp
+    permission: skhr.warp.del
+  
+  #Commande home
+  home:
+    description: tp a un home
+    permission: skhr.home
+  homes:
+    description: liste les homes
+    permission: skhr.home
+  sethome:
+    description: met un home
+    permission: skhr.home
+  delhome:
+    description: suprimme un home
+    permission: skhr.home
+  
+  #Commande tpa
+  tpa:
+    description: demande de tp a un autre joueur
+    permission: skhr.tpa
+  tpahere:
+    description: demande de tp a un autre joueur
+    permission: skhr.tpa
+  tpaccept:
+    description: permet d'accepter une demande de tp
+    permission: skhr.tpa
+  tpdeny:
+    description: permet de refuser une requete de teleportation
+    permission: skhr.tpa
+  
+  #Commande schem
+  pschem:
+    description: Gestion des schematics WE
+    permission: skhr.schem
+  account:
+    description: Permet la creation d'un compte pour les schematic
+    permission: skhr.schem
+
+permissions:
+  skhr.*:
+    description: permission pour le plugin
+    default: op
+    children:
+      skhr.speed.*: true
+      skhr.warp.*: true
+      skhr.home.*: true
+      skhr.tpa.*: true
+  
+  #Commande speed
+  skhr.speed.*:
+    description: permission commande speed
+    default: op
+    children:
+        skhr.speed: true
+        skhr.speed.other: true
+  skhr.speed:
+    description: permission commande speed
+    default: op
+    children:
+      skhr.speed.other: false
+  skhr.speed.other:
+    description: permission changer speed autre joueur
+    default: op
+  
+  #Commande warp/setwarp/delwarp
+  skhr.warp.*:
+    description: permission commande warp
+    default: op
+    children:
+      skhr.warp: true
+      skhr.warp.set: true
+      skhr.warp.del: true
+  skhr.warp:
+    description: permission tp warp
+    default: op
+  skhr.warp.set:
+    description: permission setwarp
+    default: op
+  skhr.warp.del:
+    description: permission delwarp
+    default: op
+  
+  #Commande home
+  skhr.home.*:
+    description: permission home
+    default: op
+    children:
+      skhr.home: true
+      skhr.home.other: true
+  skhr.home:
+    description: permission home
+    default: op
+  skhr.home.other:
+    description: permission home autre joueur
+    default: op
+  
+  #Commande tpa
+  skhr.tpa.*:
+    description: permission tpa
+    default: op
+    children:
+      skhr.tpa: true
+  skhr.tpa:
+    description: permission tpa
+    default: op
+  
+  #Commande schem
+  skhr.schem.*:
+    description: permission schem
+    default: op
+    children:
+      skhr.schem: true
+  skhr.schem:
+    description: permission schem
+    default: op
