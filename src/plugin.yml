@@ -59,6 +59,11 @@ commands:
   account:
     description: Permet la creation d'un compte pour les schematic
     permission: skhr.schem
+  
+  #Commande build
+  bw:
+    description: donne le Builder Wand
+    permission: skhr.build.bw
 
 permissions:
   skhr.*:
@@ -136,4 +141,14 @@ permissions:
       skhr.schem: true
   skhr.schem:
     description: permission schem
+    default: op
+  
+  #Commande build
+  skhr.build.*:
+    description: permission build
+    default: op
+    children:
+      skhr.build.bw: true
+  skhr.build.bw:
+    description: permission pour le Builder Wand
     default: op

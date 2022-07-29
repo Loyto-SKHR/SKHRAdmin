@@ -6,8 +6,11 @@ import java.io.IOException;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.event.Listener;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import fr.skhr.loyto.skhrAdmin.build.BuilderWandCommandExecutor;
 import fr.skhr.loyto.skhrAdmin.home.DelHomeCommandExecutor;
 import fr.skhr.loyto.skhrAdmin.home.HomeCommandExecutor;
 import fr.skhr.loyto.skhrAdmin.home.HomesCommandExecutor;
@@ -31,6 +34,8 @@ public class Main extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		this.getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "[SKHR-ADMIN][LOG] Plugin demarre !");
+		
+		PluginManager pluginManager = getServer().getPluginManager();
 		
 		//Fichier config
 		saveDefaultConfig();
@@ -67,6 +72,10 @@ public class Main extends JavaPlugin {
 			}
 		}
 		
+		//Listener (event)
+		Listener listener = new PluginListener();
+		pluginManager.registerEvents(listener, this);
+		
 		//Comande speed
 		getCommand("speed").setExecutor(new SpeedCommandExecutor());
 
@@ -91,6 +100,9 @@ public class Main extends JavaPlugin {
 		//Commande schem
 		getCommand("pschem").setExecutor(new SchemCommandExecutor());
 		getCommand("account").setExecutor(new AccountCommandExecutor());
+		
+		//Commande build
+		getCommand("bw").setExecutor(new BuilderWandCommandExecutor());
 	}
 	
 	@Override
