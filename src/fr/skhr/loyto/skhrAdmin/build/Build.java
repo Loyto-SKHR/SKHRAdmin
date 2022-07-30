@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -11,7 +12,12 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 import fr.skhr.loyto.skhrAdmin.Main;
 
@@ -166,10 +172,24 @@ class BWTask extends BukkitRunnable {
 		Block b;
 		for(int[] pos : listPos) {
 			b = world.getBlockAt(pos[0], pos[1], pos[2]);
+
 			if(b.getTypeId() == 0) {
-				b.setTypeId(id);
-				b.setData(data);
-				bp++;
+				Event blockPlace = new BlockPlaceEvent(b, b.getState(), block, new ItemStack(b.getType(), 1), player, true);
+				
+				if(Bukkit.getPluginManager().getPlugin("WorldGuard") != null) {
+					if(WorldGuardPlugin.inst().canBuild(player, block.getLocation())) {
+						b.setTypeId(id);
+						b.setData(data);
+						bp++;
+					}
+				}
+				else {
+					b.setTypeId(id);
+					b.setData(data);
+					bp++;
+				}
+				
+				Main.pluginManager.callEvent(blockPlace);
 			}
 		}
 		

@@ -32,13 +32,14 @@ public class Main extends JavaPlugin {
 	public static File configFile;
 	public static FileConfiguration config;
 	public static Plugin plugin;
+	public static PluginManager pluginManager;
 	
 	@Override
 	public void onEnable() {
 		this.getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "[SKHR-ADMIN][LOG] Plugin demarre !");
 		plugin = this;
 		
-		PluginManager pluginManager = getServer().getPluginManager();
+		pluginManager = getServer().getPluginManager();
 		
 		//Fichier config
 		saveDefaultConfig();
