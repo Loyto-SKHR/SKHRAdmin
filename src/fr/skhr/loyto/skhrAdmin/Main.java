@@ -7,6 +7,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -30,10 +31,12 @@ import fr.skhr.loyto.skhrAdmin.warp.WarpsCommandExecutor;
 public class Main extends JavaPlugin {
 	public static File configFile;
 	public static FileConfiguration config;
+	public static Plugin plugin;
 	
 	@Override
 	public void onEnable() {
 		this.getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "[SKHR-ADMIN][LOG] Plugin demarre !");
+		plugin = this;
 		
 		PluginManager pluginManager = getServer().getPluginManager();
 		

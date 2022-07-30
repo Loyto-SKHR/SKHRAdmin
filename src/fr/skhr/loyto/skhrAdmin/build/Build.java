@@ -1,5 +1,6 @@
 package fr.skhr.loyto.skhrAdmin.build;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,34 +8,31 @@ import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
+
+import fr.skhr.loyto.skhrAdmin.Main;
 
 public class Build {
 	
-	@SuppressWarnings("deprecation")
 	public static void builderWand(Player player, World world, int x, int y, int z, Block block, BlockFace blockFace) {
-		List<int[]> listPos = listPosition(block, blockFace, world, x, y, z);
-		
-		int bp = 0;
-		
-		int id = block.getTypeId();
-		byte data = block.getData();
-		Block b;
-		for(int[] pos : listPos) {
-			b = world.getBlockAt(pos[0], pos[1], pos[2]);
-			if(b.getTypeId() == 0) {
-				b.setTypeId(id);
-				b.setData(data);
-				bp++;
-			}
-		}
-		
-		player.sendMessage(ChatColor.GOLD + String.valueOf(bp) + ChatColor.GREEN + " blocks posés");
+		BukkitRunnable task = new BWTask(player, block, blockFace, world, x, y, z);
+		task.runTaskAsynchronously(Main.plugin);
 	}
 	
 	@SuppressWarnings("deprecation")
-	private static List<int[]> listPosition(Block block, BlockFace blockFace, World world, int x, int y, int z) {
+	static List<int[]> listPosition(Block block, BlockFace blockFace, World world, int x, int y, int z) {
+		File configFile = new File("plugins/SKHRAdmin/config.yml");
+		FileConfiguration config = YamlConfiguration.loadConfiguration(configFile);
+		
 		List<int[]> listPos = new ArrayList<int[]>();
+		
+		int limit = 200;
+		if(config.get("build.limitBW") != null) {
+			limit = config.getInt("build.limitBW");
+		}
 		
 		if(blockFace == BlockFace.UP) {
 			listPos.add(new int[]{x, y + 1, z});
@@ -128,11 +126,53 @@ public class Build {
 					}
 				}
 			}
-			if(listPos.size() > 200) {
+			if(listPos.size() > limit) {
 				continuer = false;
 			}
 		} while(continuer);
 		
 		return listPos;
+	}
+}
+
+class BWTask extends BukkitRunnable {
+	Player player;
+	Block block;
+	BlockFace blockFace;
+	World world;
+	int x;
+	int y;
+	int z;
+	
+	public BWTask(Player player, Block block, BlockFace blockFace, World world, int x, int y, int z) {
+		this.player = player;
+		this.block = block;
+		this.blockFace = blockFace;
+		this.world = world;
+		this.x = x;
+		this.y = y;
+		this.z = z;
+	}
+	
+	@SuppressWarnings("deprecation")
+	@Override
+	public void run() {
+		List<int[]> listPos = Build.listPosition(block, blockFace, world, x, y, z);
+		
+		int bp = 0;
+		
+		int id = block.getTypeId();
+		byte data = block.getData();
+		Block b;
+		for(int[] pos : listPos) {
+			b = world.getBlockAt(pos[0], pos[1], pos[2]);
+			if(b.getTypeId() == 0) {
+				b.setTypeId(id);
+				b.setData(data);
+				bp++;
+			}
+		}
+		
+		player.sendMessage(ChatColor.GOLD + String.valueOf(bp) + ChatColor.GREEN + " blocks posés");
 	}
 }
